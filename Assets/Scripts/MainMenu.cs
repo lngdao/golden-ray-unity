@@ -12,6 +12,11 @@ public class MainMenu : MonoBehaviourPunCallbacks
 
     public TMPro.TMP_InputField nameInput;
 
+    public Transform contentObject;
+
+    public RoomItem roomItemPrefab;
+    List<RoomItem> roomItemsList = new List<RoomItem>();
+
     public void ChangeName()
     {
         PhotonNetwork.NickName = nameInput.text;
@@ -21,13 +26,13 @@ public class MainMenu : MonoBehaviourPunCallbacks
     {
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 2;
+        roomOptions.IsVisible = true;
         PhotonNetwork.CreateRoom(createInput.text.ToUpper(), roomOptions);
     }
 
-    public void JoinRoom()
+    public void JoinRoom(string roomName)
     {
-        Debug.Log("room:" + joinInput.text);
-        PhotonNetwork.JoinRoom(joinInput.text.ToUpper());
+        PhotonNetwork.JoinRoom(roomName.ToUpper());
     }
 
     public override void OnJoinedRoom()
@@ -35,5 +40,30 @@ public class MainMenu : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("Game");
     }
 
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        UpdateRoomList(roomList);
+    }
 
+    void UpdateRoomList(List<RoomInfo> list)
+    {
+        foreach (RoomItem item in roomItemsList)
+        {
+            Destroy(item.gameObject);
+        }
+        roomItemsList.Clear();
+
+        foreach (RoomInfo room in list)
+        {
+            RoomItem newRoom = Instantiate(roomItemPrefab, contentObject);
+            newRoom.SetRoomName(room.Name);
+            newRoom.SetRoomPlayerNumber(room.PlayerCount.ToString() + "/2");
+            roomItemsList.Add(newRoom);
+        }
+    }
+
+    private void Start()
+    {
+        PhotonNetwork.JoinLobby();
+    }
 }
