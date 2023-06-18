@@ -19,7 +19,6 @@ public class Spawner : MonoBehaviour
 
         if (timeBtwSpawns <= 0)
         {
-            // spawn
             Vector3 spawnPosition = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
             PhotonNetwork.Instantiate(enemy.name, spawnPosition, Quaternion.identity);
             timeBtwSpawns = startTimeBtwSpawns;

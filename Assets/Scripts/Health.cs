@@ -25,7 +25,10 @@ public class Health : MonoBehaviour
     [PunRPC]
     void TakeDamageRPC()
     {
-        health--;
+        if (health > 0)
+        {
+            health--;
+        }
 
         if (health <= 0)
         {

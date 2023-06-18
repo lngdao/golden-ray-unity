@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
             nameDisplay.text = PhotonNetwork.NickName;
         } else
         {
-            //nameDisplay.text = "Toi dai dot " + Random.Range(1, 1000).ToString();
             nameDisplay.text = view.Owner.NickName;
         }
     }

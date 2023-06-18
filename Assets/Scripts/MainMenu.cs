@@ -47,11 +47,13 @@ public class MainMenu : MonoBehaviourPunCallbacks
 
     void UpdateRoomList(List<RoomInfo> list)
     {
-        foreach (RoomItem item in roomItemsList)
-        {
-            Destroy(item.gameObject);
-        }
-        roomItemsList.Clear();
+        print(list.Capacity);
+
+        //foreach (RoomItem item in roomItemsList)
+        //{
+        //    Destroy(item.gameObject);
+        //}
+        //roomItemsList.Clear();
 
         foreach (RoomInfo room in list)
         {
